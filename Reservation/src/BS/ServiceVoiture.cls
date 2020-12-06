@@ -7,6 +7,7 @@ Parameter SERVICENAME = "ServiceVoiture";
 Method OnProcessInput(pInput As %RegisteredObject, Output pOutput As %RegisteredObject, ByRef pHint As %String) As %Status
 {
     set tsc = $CASE(pHint,
+        "supprimerVoiture":..supprimerVoiture(pInput,.pOutput),
         "creerVoiture":..creerVoiture(pInput,.pOutput),
 	 	: $$$ERROR($$$NotImplemented)
     )
@@ -14,6 +15,12 @@ Method OnProcessInput(pInput As %RegisteredObject, Output pOutput As %Registered
 }
 
 Method creerVoiture(pInput As %RegisteredObject, Output pOutput As %RegisteredObject) As %Status
+{
+    set tsc = ..SendRequestSync("Voiture",pInput,.pOutput)
+    Quit $$$OK
+}
+
+Method supprimerVoiture(pInput As %RegisteredObject, Output pOutput As %RegisteredObject) As %Status
 {
     set tsc = ..SendRequestSync("Voiture",pInput,.pOutput)
     Quit $$$OK

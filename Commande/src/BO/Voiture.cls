@@ -20,11 +20,35 @@ Method creerVoiture(pRequest As msg.creerVoitureDmde, Output pResponse As msg.cr
     Quit $$$OK
 }
 
+Method supprimerVoiture(pRequest As msg.supprimerVoitureDmde, Output pResponse As msg.supprimerVoitureRpse) As %Status
+{
+    
+    set pResponse = ##class(msg.supprimerVoitureRpse).%New()
+    
+    if (##class(data.Voiture).consulterParPlaqueExists( pRequest.plaque , .id )){
+        set tsc = ##class(data.Voiture).%DeleteId(id)
+        if (tsc) { 
+            set pResponse.codeRetour = "OK" 
+        }
+        else {
+            set pResponse.codeRetour = "KO"
+        }
+    }
+    else {
+        set pResponse.codeRetour = "KO"
+        set pResponse.libErreur = "La voiture n'existe pas"
+    }
+    Quit $$$OK
+}
+
 XData MessageMap
 {
 <MapItems>
     <MapItem MessageType="msg.creerVoitureDmde">
         <Method>creerVoiture</Method>
+    </MapItem>
+    <MapItem MessageType="msg.supprimerVoitureDmde">
+        <Method>supprimerVoiture</Method>
     </MapItem>
 </MapItems>
 }

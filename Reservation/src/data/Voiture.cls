@@ -5,7 +5,9 @@ Property nom As %String;
 
 Property categorie As %String(VALUELIST = "'2 places', 'Cabriolet', 'Berline', 'Monospace', '4x4', '7 places'");
 
-Property plaque As %String(MAXLEN = 9, MINLEN = 9);
+Property plaque As %String;
+
+Index consulterParPlaque On plaque;
 
 Storage Default
 {
